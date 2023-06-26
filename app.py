@@ -19,11 +19,9 @@ from utils import validate_json
 
 # Student API
 
-# 1. Basic CRUD Done
-# 2. Needs Authentication using JWT
-# 3. Needs Rate Limiting
-# 4. Docker Deployment with Nginx
-
+# 1. CRUD
+# 2. Authentication using JWT
+# 3. Rate Limiting
 
 app = Flask(__name__)
 limiter = Limiter(
@@ -34,7 +32,7 @@ limiter = Limiter(
 )
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://ahsan:ahsan1234@localhost:3306/student_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://ahsan:ahsan1234@db:3306/student_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 app.config['SECRET_KEY'] = 'ahsan'
 
