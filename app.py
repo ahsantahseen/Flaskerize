@@ -135,7 +135,7 @@ def register_user():
     name = request.json['name']
     email = request.json['email']
     password = generate_password_hash(
-        request.json['password'], method='sha256')
+        request.json['password'], method='scrypt')
     new_user = User(name, email, password)
     db.session.add(new_user)
     db.session.commit()
@@ -153,4 +153,4 @@ def login_user():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

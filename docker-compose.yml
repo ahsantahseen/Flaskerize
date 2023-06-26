@@ -1,47 +1,41 @@
 version: "3.3"
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.0
+    restart: always
     container_name: db
-    ports:
-      - "3306:3306"
-    expose:
-      - 3306
-      - 33060
     environment:
       MYSQL_ROOT_PASSWORD: ahsan123
       MYSQL_USER: ahsan
       MYSQL_PASSWORD: ahsan1234
       MYSQL_DATABASE: student_db
     volumes:
-      - ./dump:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
   api:
     image: ahsantahseen/ahsan_api:latest
+    restart: always
     container_name: api
     expose:
       - 5000
     ports:
       - 5000:5000
-    links:
-      - "db:database"
     depends_on:
       - db
   nginx:
     image: nginx:latest
+    restart: always
     container_name: nginx
     expose:
-      - 80
-      - 443
+      - '80'
+      - '443'
     ports:
       - 80:80
       - 443:443
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    links:
-      - api:api
-      - db:database
     depends_on:
       - api
 volumes:
-   db_data:
+  db_data:
+
+
