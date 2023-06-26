@@ -8,6 +8,9 @@ flask = "*"
 flask-sqlalchemy = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+pyjwt = "*"
+datetime = "*"
+uuid = "*"
 
 [dev-packages]
 

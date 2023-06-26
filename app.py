@@ -1,8 +1,18 @@
-from flask import Flask,request,jsonify
+from flask import Flask,request,jsonify,make_response
+from werkzeug.security import generate_password_hash,check_password_hash
+from functools import wraps
+
 import pymysql
-from schema.student import StudentSchema,student_schema,students_schema
+import uuid
+import jwt
+import datetime
+
+from schema.student import student_schema,students_schema
+from schema.user import user_schema,users_schema
 from models.student import Student
+from models.user import User
 from db.db import db
+
 
 #Student API
 
@@ -16,23 +26,47 @@ app=Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://ahsan:ahsan1234@localhost:3306/student_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATION']=False
+app.config['SECRET_KEY']='ahsan'
 
 db.init_app(app)
 
+def token_required(f):
+   @wraps(f)
+   def decorator(*args, **kwargs):
+       token = None
+       if 'x-access-token' in request.headers:
+           token = request.headers['x-access-token']
+ 
+       if not token:
+           return jsonify({'message': 'a valid token is missing'})
+       try:
+           data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+           current_user = User.query.filter_by(id=data['id']).first()
+       except:
+           return jsonify({'message': 'token is invalid'})
+ 
+       return f(current_user, *args, **kwargs)
+   return decorator
+
+with app.app_context():
+    db.create_all()
 
 @app.route("/students",methods=['GET'])
-def get_students():
+@token_required
+def get_students(current_user):
     students=Student.query.all()
     result=students_schema.dump(students)
     return jsonify(result)
 
 @app.route("/student/<id>",methods=['GET'])
-def get_student(id):
+@token_required
+def get_student(current_user,id):
     student=db.session.get(Student,int(id))
     return student_schema.jsonify(student)
 
 @app.route('/student',methods=['POST'])
-def add_student():
+@token_required
+def add_student(current_user):
     name=request.json['name']
     cgpa=request.json['cgpa']
     age=request.json['age']
@@ -44,27 +78,56 @@ def add_student():
     return student_schema.jsonify(new_student)
 
 @app.route("/student/<id>",methods=['PUT'])
-def update_student(id):
+@token_required
+def update_student(current_user,id):
     student=db.session.get(Student,id)
+    if student:
+         name=request.json['name']
+         cgpa=request.json['cgpa']
+         age=request.json['age']
+         semester=request.json['semester']
 
-    name=request.json['name']
-    cgpa=request.json['cgpa']
-    age=request.json['age']
-    semester=request.json['semester']
+         student.name=name
+         student.cgpa=cgpa
+         student.age=age
+         student.semester=semester
+         db.session.commit()
+         return student_schema.jsonify(student)
+    else:
+        return make_response(jsonify({"Error":'Student Not Found'}),404)
 
-    student.name=name
-    student.cgpa=cgpa
-    student.age=age
-    student.semester=semester
-    db.session.commit()
-    return student_schema.jsonify(student)
+
+   
 
 @app.route("/student/<id>",methods=['DELETE'])
-def delete_student(id):
+@token_required
+def delete_student(current_user,id):
     student=db.session.get(Student,id)    
-    db.session.delete(student)
+    if student:
+        db.session.delete(student)
+        db.session.commit()
+        return student_schema.jsonify(student)
+    else:
+        return make_response(jsonify({"Error":'Student Not Found'}),404)    
+    
+
+@app.route("/register",methods=['POST'])
+def register_user():
+    name=request.json['name']
+    email=request.json['email']
+    password=generate_password_hash(request.json['password'],method='sha256')
+    new_user=User(name,email,password)
+    db.session.add(new_user)
     db.session.commit()
-    return student_schema.jsonify(student)
+    return user_schema.jsonify(new_user)
+
+@app.route("/login",methods=['POST'])
+def login_user():
+    user=User.query.filter_by(email=request.json['email']).first()
+    if check_password_hash(user.password,request.json['password']):
+        token = jwt.encode({'id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=45)}, app.config['SECRET_KEY'], "HS256")
+        return jsonify({"token":token})
+    return make_response(jsonify({"Error":'Login Required'}),401)
 
 
 if __name__=='__main__':
