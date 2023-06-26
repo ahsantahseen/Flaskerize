@@ -1,4 +1,6 @@
 from flask import Flask,request,jsonify,make_response
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from werkzeug.security import generate_password_hash,check_password_hash
 from functools import wraps
 
@@ -23,6 +25,13 @@ from db.db import db
 
 
 app=Flask(__name__) 
+limiter=Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=['30 per hour'],
+    storage_uri='memory://'
+)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://ahsan:ahsan1234@localhost:3306/student_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATION']=False
