@@ -150,7 +150,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\":\"Ahsan Tahseen\",\n  \"email\":\"ahsan@gmail.com\",\n  \"password\":\"123\"\n}",
+                "raw": "{\n \"email\":\"ahsan@gmail.com\",\n  \"password\":\"123\"\n}",
                 "form": []
             },
             "tests": []
