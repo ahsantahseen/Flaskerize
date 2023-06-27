@@ -3,7 +3,9 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from dotenv import load_dotenv
 
+import os
 import pymysql
 import uuid
 import jwt
@@ -24,6 +26,7 @@ from utils import validate_json
 # 3. Rate Limiting
 
 app = Flask(__name__)
+load_dotenv()
 limiter = Limiter(
     get_remote_address,
     app=app,
@@ -32,9 +35,9 @@ limiter = Limiter(
 )
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://ahsan:ahsan1234@db:3306/student_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQL_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
-app.config['SECRET_KEY'] = 'ahsan'
+app.config['SECRET_KEY'] = os.getenv('JWT_SECRET')
 
 db.init_app(app)
 
@@ -153,4 +156,4 @@ def login_user():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=os.getenv('DEBUG_MODE'), host='0.0.0.0')

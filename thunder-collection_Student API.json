@@ -1,0 +1,159 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Student API",
+    "dateExported": "2023-06-27T09:27:54.023Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "bee05b1a-98e5-4484-856c-7811de86017d",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "delete student",
+            "url": "http://127.0.0.1/student/7",
+            "method": "DELETE",
+            "sortNum": 10000,
+            "created": "2023-06-25T22:30:17.486Z",
+            "modified": "2023-06-26T22:04:24.576Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjg3ODE5NzI0fQ.fGaGZGVfSRIOSD8HA6V0OUG5rLTyRRCSG4kryT5wbMY"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8334bbcb-e1a8-4d32-a24f-5d46d7f064b3",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "get student by id",
+            "url": "http://127.0.0.1/student/1",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-06-25T22:44:10.413Z",
+            "modified": "2023-06-26T22:04:19.509Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjg3ODE5NzI0fQ.fGaGZGVfSRIOSD8HA6V0OUG5rLTyRRCSG4kryT5wbMY"
+                }
+            ],
+            "params": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjg3Nzc2MjczfQ.KHv2ZzTI7W-qzpxKRbfygCTxXCp0AMuviP5JNIhn0yo",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "f76ef395-4cad-4149-b050-f94a32af9579",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "update student",
+            "url": "http://127.0.0.1/student/3",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2023-06-25T22:30:27.122Z",
+            "modified": "2023-06-26T22:03:28.210Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjg3NzgwNDM1fQ.08aQ9Y50ZVwp__uVAef6CSlGHJIpSbsMmSabsFr7jas"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Hallar\",\n  \"age\":24,\n  \"cgpa\":2.67,\n  \"semester\":6\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "180cd514-9a65-48c9-bc9d-4801d31d7e7f",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "insert student",
+            "url": "http://127.0.0.1/student",
+            "method": "POST",
+            "sortNum": 25000,
+            "created": "2023-06-25T22:31:17.737Z",
+            "modified": "2023-06-26T22:04:08.228Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjg3ODE5NzI0fQ.fGaGZGVfSRIOSD8HA6V0OUG5rLTyRRCSG4kryT5wbMY"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Ahsan\",\n  \"age\":24,\n  \"cgpa\":3.76,\n  \"semester\":8\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c0f37a1c-1cc6-4cd9-ba3e-62a6858a5242",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "get students",
+            "url": "http://127.0.0.1/students",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-06-25T22:30:34.252Z",
+            "modified": "2023-06-26T22:03:53.298Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjg3ODE5NzI0fQ.fGaGZGVfSRIOSD8HA6V0OUG5rLTyRRCSG4kryT5wbMY"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bcbe1e1c-25d2-4b22-a7bd-6c7a2992629f",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "register",
+            "url": "http://127.0.0.1/register",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-06-26T07:29:30.242Z",
+            "modified": "2023-06-26T22:03:16.800Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Ahsan Tahseen\",\n  \"email\":\"ahsan@gmail.com\",\n  \"password\":\"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c672c7a1-c3e6-43bb-a87e-14f103e9eea0",
+            "colId": "2c39e0b2-8ffa-4594-89b9-354f54d6907e",
+            "containerId": "",
+            "name": "login",
+            "url": "http://127.0.0.1/login",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-06-26T08:14:45.347Z",
+            "modified": "2023-06-26T22:03:19.637Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Ahsan Tahseen\",\n  \"email\":\"ahsan@gmail.com\",\n  \"password\":\"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
