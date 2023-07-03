@@ -30,7 +30,7 @@ load_dotenv()
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=['30 per hour'],
+    default_limits=['35 per hour'],
     storage_uri='memory://'
 )
 
