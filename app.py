@@ -136,20 +136,25 @@ def delete_student(current_user, id):
 @app.route("/register", methods=['POST'])
 def register_user():
     if validate_json(validation_schema_registration, request.json):
-        name = request.json['name']
-        email = request.json['email']
-        password = generate_password_hash(
-            request.json['password'], method='scrypt')
-        new_user = User(name, email, password)
-        db.session.add(new_user)
-        db.session.commit()
-        return make_response(jsonify({
-            "msg": "User successfully created",
-            "user": {
-                "name": name,
-                "email": email
-            }
-        }))
+        user = User.query.filter_by(email=request.json['email']).first()
+        print(user)
+        if user:
+            return make_response(jsonify({"Error": "User Already Exists!"}), 400)
+        else:
+            name = request.json['name']
+            email = request.json['email']
+            password = generate_password_hash(
+                request.json['password'], method='scrypt')
+            new_user = User(name, email, password)
+            db.session.add(new_user)
+            db.session.commit()
+            return make_response(jsonify({
+                "msg": "User successfully created",
+                "user": {
+                    "name": name,
+                    "email": email
+                }
+            }))
     else:
         return make_response(jsonify({"Error": 'Incomplete/Incorrect Data, Please Try Again!'}), 400)
 
@@ -159,6 +164,8 @@ def login_user():
     if validate_json(validation_schema_login, request.json):
         user = User.query.filter_by(email=request.json['email']).first()
         if user:
+            print("User")
+            print(user.password, request.json['password'])
             if check_password_hash(user.password, request.json['password']):
                 token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow(
                 ) + datetime.timedelta(minutes=45)}, app.config['SECRET_KEY'], "HS256")
