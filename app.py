@@ -12,7 +12,7 @@ import jwt
 import datetime
 
 from schema.student import student_schema, students_schema, validation_schema_students
-from schema.user import user_schema, users_schema
+from schema.user import user_schema, users_schema, validation_schema_login, validation_schema_registration
 from models.student import Student
 from models.user import User
 from db.db import db
@@ -135,30 +135,40 @@ def delete_student(current_user, id):
 
 @app.route("/register", methods=['POST'])
 def register_user():
-    name = request.json['name']
-    email = request.json['email']
-    password = generate_password_hash(
-        request.json['password'], method='scrypt')
-    new_user = User(name, email, password)
-    db.session.add(new_user)
-    db.session.commit()
-    return user_schema.jsonify({
-        "msg": "User successfully created",
-        "user": {
-            "name": name,
-            "email": email
-        }
-    })
+    if validate_json(validation_schema_registration, request.json):
+        name = request.json['name']
+        email = request.json['email']
+        password = generate_password_hash(
+            request.json['password'], method='scrypt')
+        new_user = User(name, email, password)
+        db.session.add(new_user)
+        db.session.commit()
+        return make_response(jsonify({
+            "msg": "User successfully created",
+            "user": {
+                "name": name,
+                "email": email
+            }
+        }))
+    else:
+        return make_response(jsonify({"Error": 'Incomplete/Incorrect Data, Please Try Again!'}), 400)
 
 
 @app.route("/login", methods=['POST'])
 def login_user():
-    user = User.query.filter_by(email=request.json['email']).first()
-    if check_password_hash(user.password, request.json['password']):
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow(
-        ) + datetime.timedelta(minutes=45)}, app.config['SECRET_KEY'], "HS256")
-        return jsonify({"token": token})
-    return make_response(jsonify({"Error": 'Login Required'}), 401)
+    if validate_json(validation_schema_login, request.json):
+        user = User.query.filter_by(email=request.json['email']).first()
+        if user:
+            if check_password_hash(user.password, request.json['password']):
+                token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow(
+                ) + datetime.timedelta(minutes=45)}, app.config['SECRET_KEY'], "HS256")
+                return jsonify({"token": token})
+            else:
+                return make_response(jsonify({"Error": 'Incorrect Credentials'}), 401)
+        else:
+            return make_response(jsonify({"Error": 'User not found'}), 404)
+    else:
+        return make_response(jsonify({"Error": 'Incomplete/Incorrect Data, Please Try Again!'}), 400)
 
 
 @app.errorhandler(404)
