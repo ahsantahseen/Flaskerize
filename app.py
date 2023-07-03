@@ -155,5 +155,10 @@ def login_user():
     return make_response(jsonify({"Error": 'Login Required'}), 401)
 
 
+@app.errorhandler(404)
+def not_found():
+    return make_response(jsonify({"Error": "Requested Resource Not Found"}), 404)
+
+
 if __name__ == '__main__':
     app.run(debug=os.getenv('DEBUG_MODE'), host='0.0.0.0')
