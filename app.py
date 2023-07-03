@@ -156,7 +156,7 @@ def login_user():
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(e):
     return make_response(jsonify({"Error": "Requested Resource Not Found"}), 404)
 
 
