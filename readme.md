@@ -2,6 +2,12 @@
 
 This readme provides information on how to interact with the Flask API using any RESTful API client.
 
+## Docker Images Used
+```Flask Application```
+```MySQL```
+```Nginx```
+
+
 ## Prerequisites
 
 - Docker
