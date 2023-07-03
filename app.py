@@ -142,7 +142,13 @@ def register_user():
     new_user = User(name, email, password)
     db.session.add(new_user)
     db.session.commit()
-    return user_schema.jsonify(new_user)
+    return user_schema.jsonify({
+        "msg": "User successfully created",
+        "user": {
+            "name": name,
+            "email": email
+        }
+    })
 
 
 @app.route("/login", methods=['POST'])

@@ -4,11 +4,12 @@ services:
     image: mysql:8.0
     restart: always
     container_name: db
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: ahsan123
-      MYSQL_USER: ahsan
-      MYSQL_PASSWORD: ahsan1234
-      MYSQL_DATABASE: student_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - db_data:/var/lib/mysql
   api:
