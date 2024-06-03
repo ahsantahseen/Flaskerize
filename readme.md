@@ -1,4 +1,5 @@
-# FLASK API
+# FLASKERSIZE
+> Dockerized Implementation of Flask with MySQL and Nginx
 
 This readme provides information on how to interact with the Flask API using any RESTful API client.
 
